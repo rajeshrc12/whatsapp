@@ -1,11 +1,13 @@
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
+const path = require("path");
 const app = express();
 const { Server } = require("socket.io");
 let onlineUsers = [];
+
 require("dotenv").config();
-console.log(process.env.CLIENT_URL);
+
 app.use(
   cors({
     origin: process.env.CLIENT_URL,
@@ -14,6 +16,12 @@ app.use(
 );
 app.use(bodyParser.json());
 const port = process.env.PORT;
+
+app.use(express.static(path.join(__dirname, "/frontend/dist")));
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "frontend", "dist", "index.html"));
+});
 const server = app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
 });
