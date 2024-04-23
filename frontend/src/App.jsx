@@ -1,56 +1,31 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { io } from "socket.io-client";
-import axios from "axios";
-const socket = io(import.meta.env.VITE_SERVER_URL, {
-  query: {
-    email: localStorage.getItem("email"),
-  },
-});
 const App = () => {
-  const [chat, setChat] = useState("");
-  const [message, setMessage] = useState("");
-  const [name, setName] = useState("");
+  const navigate = useNavigate();
   useEffect(() => {
-    socket.on(localStorage.getItem("email"), (data) => {
-      setChat(data);
-    });
-  }, [socket]);
+    const email = localStorage.getItem("email");
+    if (email) {
+      const skt = io(import.meta.env.VITE_SERVER_URL, {
+        query: {
+          email,
+        },
+      });
+    } else {
+      navigate("/login");
+    }
+  }, []);
   return (
     <div>
-      <div>
-        <input
-          placeholder="name"
-          type="text"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-      </div>
-      <div>
-        <input
-          placeholder="message"
-          type="text"
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-        />
-      </div>
-      <div>my name is {localStorage.getItem("email")}</div>
-      <div>message is {chat}</div>
-      <div>
-        <button
-          onClick={async () => {
-            const res = await axios.post(
-              `${import.meta.env.VITE_SERVER_URL}/pinguser`,
-              {
-                name,
-                message,
-              }
-            );
-            console.log(res);
-          }}
-        >
-          send
-        </button>
-      </div>
+      <div className="text-2xl font-bold">{localStorage.getItem("email")}</div>
+      <button
+        onClick={() => {
+          localStorage.removeItem("email");
+          navigate("/login");
+        }}
+      >
+        logout
+      </button>
     </div>
   );
 };

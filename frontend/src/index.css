@@ -1,0 +1,29 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+:root {
+  --panel-header-background: #f0f2f5;
+  --panel-background-deeper: #e9edef;
+  --outgoing-background: #d9fdd3;
+  --chevron-button-background: rgba(17, 27, 33, 0.35);
+  --quick-action-button-background: rgba(11, 20, 26, 0.2);
+  --poll-bar-container-sender: rgba(11, 20, 26, 0.1);
+  --poll-bar-fill-sender: #00a884;
+  --poll-checkbox-default-border-color-sender: #8696a0;
+  --popup-panel-background: rgba(11, 20, 26, 0.05);
+  --panel-background-colored: #008069;
+  --photopicker-overlay-background: rgba(84, 101, 111, 0.8);
+  --switch-track-checked-color: #b2dbd7;
+  --switch-track-color: #b2b2b2;
+  --switch-button-color: #ececec;
+  --input-border: #667781;
+  --unread-marker-background: #25d366;
+}
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgb(200, 200, 200) #fff;
+}
+input::placeholder {
+  font-size: smaller;
+  color: #667781;
+}

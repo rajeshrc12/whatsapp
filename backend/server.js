@@ -2,7 +2,13 @@ const path = require("path");
 const { app, server } = require("./socket/socket");
 const { routes } = require("./routes/Routes");
 const express = require("express");
-
+const { Connection } = require("./database/db");
+Connection(
+  process.env.DB_USERNAME,
+  process.env.DB_PASSWORD,
+  process.env.DB_URL,
+  process.env.DB_NAME
+);
 const port = process.env.PORT || 3001;
 
 if (process.env.NODE_ENV === "prod") {
