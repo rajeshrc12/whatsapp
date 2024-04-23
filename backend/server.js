@@ -8,12 +8,7 @@ let onlineUsers = [];
 
 require("dotenv").config();
 
-app.use(
-  cors({
-    origin: process.env.CLIENT_URL,
-    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-  })
-);
+app.use(cors());
 app.use(bodyParser.json());
 const port = process.env.PORT;
 
