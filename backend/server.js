@@ -17,11 +17,17 @@ app.use(
 app.use(bodyParser.json());
 const port = process.env.PORT;
 
-app.use(express.static(path.join(path.resolve(), "/frontend/dist")));
+if (process.env.NODE_ENV === "prod") {
+  app.use(express.static(path.join(path.resolve(), "/frontend/dist")));
 
-app.get("*", (req, res) => {
-  res.sendFile(path.join(path.resolve(), "frontend", "dist", "index.html"));
-});
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(path.resolve(), "frontend", "dist", "index.html"));
+  });
+} else {
+  app.get("/", (req, res) => {
+    res.send("api is running");
+  });
+}
 const server = app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
 });
