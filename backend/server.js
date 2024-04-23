@@ -1,6 +1,7 @@
 const path = require("path");
-const { app, server, express } = require("./socket/socket");
+const { app, server } = require("./socket/socket");
 const { routes } = require("./routes/Routes");
+const express = require("express");
 
 const port = process.env.PORT || 3001;
 

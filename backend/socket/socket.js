@@ -43,5 +43,4 @@ module.exports = {
   io,
   server,
   onlineUsers,
-  express,
 };
