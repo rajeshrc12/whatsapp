@@ -1,21 +1,8 @@
-const express = require("express");
-const cors = require("cors");
-const bodyParser = require("body-parser");
 const path = require("path");
-const app = express();
-const { Server } = require("socket.io");
-let onlineUsers = [];
+const { app, server } = require("./socket/socket");
+const { routes } = require("./routes/Routes");
 
-require("dotenv").config();
-
-app.use(
-  cors({
-    origin: "*",
-    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-  })
-);
-app.use(bodyParser.json());
-const port = process.env.PORT;
+const port = process.env.PORT || 3001;
 
 if (process.env.NODE_ENV === "prod") {
   app.use(express.static(path.join(path.resolve(), "/frontend/dist")));
@@ -28,32 +15,8 @@ if (process.env.NODE_ENV === "prod") {
     res.send("api is running");
   });
 }
-const server = app.listen(port, () => {
+server.listen(port, () => {
   console.log(`Server listening on port ${port}`);
 });
-const ioInstance = new Server(server, {
-  cors: {
-    origin: "*",
-    methods: ["GET", "POST"],
-  },
-});
-ioInstance.on("connection", (socket) => {
-  // console.clear();
-  if (!onlineUsers.find((user) => user.email === socket.handshake.query.email))
-    onlineUsers.push({
-      email: socket.handshake.query.email,
-    });
-  console.log("Online Users", onlineUsers);
-  socket.on("disconnect", () => {
-    onlineUsers = onlineUsers.filter(
-      (user) => user.email !== socket.handshake.query.email
-    );
-    console.log("Online Users", onlineUsers);
-  });
-});
-app.use("/pinguser", (req, res) => {
-  const { name, message } = req.body;
-  console.log({ name, message });
-  ioInstance.sockets.emit(name, message);
-  res.status(200).send({ name, message });
-});
+
+app.use("/", routes);
