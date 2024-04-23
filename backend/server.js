@@ -33,7 +33,8 @@ const server = app.listen(port, () => {
 });
 const ioInstance = new Server(server, {
   cors: {
-    origin: process.env.CLIENT_URL,
+    origin: "*",
+    methods: ["GET", "POST"],
   },
 });
 ioInstance.on("connection", (socket) => {
