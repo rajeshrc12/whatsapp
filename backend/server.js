@@ -17,10 +17,10 @@ app.use(
 app.use(bodyParser.json());
 const port = process.env.PORT;
 
-app.use(express.static(path.join(__dirname, "/frontend/dist")));
+app.use(express.static(path.join(path.resolve(), "/frontend/dist")));
 
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "frontend", "dist", "index.html"));
+  res.sendFile(path.join(path.resolve(), "frontend", "dist", "index.html"));
 });
 const server = app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
