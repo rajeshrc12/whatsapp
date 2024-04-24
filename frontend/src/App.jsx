@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { io } from "socket.io-client";
+import SideBar from "./components/sidebar/SideBar";
+import LeftPanel from "./components/leftpanel/LeftPanel";
+import MiddlePanel from "./components/middlepanel/MiddlePanel";
+import WhatsaAppBG from "./images/whatsapp.png";
 const App = () => {
   const navigate = useNavigate();
   useEffect(() => {
@@ -16,16 +20,19 @@ const App = () => {
     }
   }, []);
   return (
-    <div>
-      <div className="text-2xl font-bold">{localStorage.getItem("email")}</div>
-      <button
-        onClick={() => {
-          localStorage.removeItem("email");
-          navigate("/login");
-        }}
+    <div className="flex h-screen w-screen">
+      <div className="w-[4%]">
+        <SideBar />
+      </div>
+      <div className="w-[31%] border">
+        <LeftPanel />
+      </div>
+      <div
+        className="w-[65%] border"
+        style={{ backgroundImage: `url(${WhatsaAppBG})` }}
       >
-        logout
-      </button>
+        <MiddlePanel />
+      </div>
     </div>
   );
 };

@@ -24,6 +24,7 @@ export default {
         "unread-marker-background": "var(--unread-marker-background)",
         "switch-button-color": "var(--switch-button-color)",
         transparent: "rgba(0, 0, 0, 0.05)",
+        transparentLg: "rgba(0, 0, 0, 0.1)",
       },
     },
   },
