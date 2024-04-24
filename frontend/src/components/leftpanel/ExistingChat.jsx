@@ -4,7 +4,9 @@ import MenuIcon from "../../icons/MenuIcon";
 import ExistingChatContact from "./ExistingChatContact";
 import { useDispatch } from "react-redux";
 import { left } from "../../state/panel/panelSlice";
+import { useNavigate } from "react-router-dom";
 const ExistingChat = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   return (
     <div className="h-full">
@@ -20,7 +22,12 @@ const ExistingChat = () => {
               />
             </div>
             <div>
-              <MenuIcon />
+              <MenuIcon
+                onClick={() => {
+                  localStorage.removeItem("user");
+                  navigate("/login");
+                }}
+              />
             </div>
           </div>
         </div>
