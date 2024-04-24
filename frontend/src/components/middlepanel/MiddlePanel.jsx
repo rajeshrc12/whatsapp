@@ -2,10 +2,12 @@ import React from "react";
 import ChatWindow from "./ChatWindow";
 import FilePreview from "./FilePreview";
 import EmptyProfileIcon from "../../icons/EmptyProfileIcon";
-
+import WhatsaAppBG from "../../images/whatsapp.png";
+import { useSelector } from "react-redux";
 const MiddlePanel = () => {
+  const panel = useSelector((state) => state.panel);
   return (
-    <div className="h-full">
+    <div className="h-full" style={{ backgroundImage: `url(${WhatsaAppBG})` }}>
       <div className="h-[10%] bg-panel-header-background">
         <div className="flex gap-3 items-center h-full p-3">
           <div>
@@ -17,7 +19,9 @@ const MiddlePanel = () => {
           </div>
         </div>
       </div>
-      <div className="h-[90%]">{true ? <ChatWindow /> : <FilePreview />}</div>
+      <div className="h-[90%]">
+        {panel.middle ? <FilePreview /> : <ChatWindow />}
+      </div>
     </div>
   );
 };

@@ -8,7 +8,11 @@ const addUser = async (req, res) => {
       res.status(200).json("User already exists");
       return;
     }
-    const newUser = new User({ ...req.body, lastSeen: new Date() });
+    const newUser = new User({
+      ...req.body,
+      lastSeen: new Date(),
+      about: "Hey there! I am using WhatsApp.",
+    });
     await newUser.save();
     res.status(200).json(newUser);
   } catch (error) {
@@ -16,12 +20,27 @@ const addUser = async (req, res) => {
     res.status(500).json(error);
   }
 };
+const getAllUsers = async (req, res) => {
+  try {
+    const result = await User.find();
+    res.status(200).json(result);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json(error);
+  }
+};
 const pingUser = (req, res) => {
-  const { name, message } = req.body;
-  io.sockets.emit(name, message);
-  res.status(200).send({ name, message });
+  try {
+    const { name, message } = req.body;
+    io.sockets.emit(name, message);
+    res.status(200).send({ name, message });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json(error);
+  }
 };
 module.exports = {
   pingUser,
   addUser,
+  getAllUsers,
 };

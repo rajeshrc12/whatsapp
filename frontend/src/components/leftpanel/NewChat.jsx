@@ -1,10 +1,15 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import BackIcon from "../../icons/BackIcon";
 import NewChatContact from "./NewChatContact";
 import { useDispatch } from "react-redux";
 import { left } from "../../state/panel/panelSlice";
+import { getAllUsers } from "../../service/user";
 const NewChat = () => {
   const dispatch = useDispatch();
+  const [users, setUsers] = useState([]);
+  useEffect(() => {
+    getAllUsers().then((res) => setUsers(res));
+  }, []);
   return (
     <div className="h-full">
       <div className="h-[17%] border-b-[1px] flex flex-col justify-between">
@@ -28,7 +33,9 @@ const NewChat = () => {
         </div>
       </div>
       <div className="h-[83%] overflow-y-scroll">
-        <NewChatContact />
+        {users.map((user) => (
+          <NewChatContact key={user._id} user={user} />
+        ))}
       </div>
     </div>
   );

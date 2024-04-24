@@ -4,8 +4,9 @@ import { io } from "socket.io-client";
 import SideBar from "./components/sidebar/SideBar";
 import LeftPanel from "./components/leftpanel/LeftPanel";
 import MiddlePanel from "./components/middlepanel/MiddlePanel";
-import WhatsaAppBG from "./images/whatsapp.png";
+import { useSelector } from "react-redux";
 const App = () => {
+  const user = useSelector((state) => state.user);
   const navigate = useNavigate();
   useEffect(() => {
     const email = localStorage.getItem("email");
@@ -27,11 +28,21 @@ const App = () => {
       <div className="w-[31%] border">
         <LeftPanel />
       </div>
-      <div
-        className="w-[65%] border"
-        style={{ backgroundImage: `url(${WhatsaAppBG})` }}
-      >
-        <MiddlePanel />
+      <div className="w-[65%] border">
+        {user.selectedUser.name ? (
+          <MiddlePanel />
+        ) : (
+          <div className="bg-panel-header-background h-full flex justify-center items-center">
+            <div className="text-center">
+              <div className="text-2xl">WhatsApp Web</div>
+              <img
+                src="https://static.whatsapp.net/rsrc.php/v3/yX/r/dJq9qKG5lDb.png"
+                width="320"
+                alt=""
+              ></img>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
