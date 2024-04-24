@@ -5,6 +5,7 @@ import SideBar from "./components/sidebar/SideBar";
 import LeftPanel from "./components/leftpanel/LeftPanel";
 import MiddlePanel from "./components/middlepanel/MiddlePanel";
 import { useSelector } from "react-redux";
+import { FaLinkedin } from "react-icons/fa";
 const App = () => {
   const user = useSelector((state) => state.user);
   const navigate = useNavigate();
@@ -40,6 +41,19 @@ const App = () => {
                 width="320"
                 alt=""
               ></img>
+              <div className="flex justify-center gap-1">
+                <div>By</div>
+                <a
+                  className="font-bold flex items-center gap-1"
+                  target="_blank"
+                  href="https://www.linkedin.com/in/rajeshcharhajari/"
+                >
+                  <div>Rajesh charhajari</div>
+                  <div>
+                    <FaLinkedin />
+                  </div>
+                </a>
+              </div>
             </div>
           </div>
         )}
