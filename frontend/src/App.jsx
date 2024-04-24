@@ -6,7 +6,7 @@ import LeftPanel from "./components/leftpanel/LeftPanel";
 import MiddlePanel from "./components/middlepanel/MiddlePanel";
 import { useDispatch, useSelector } from "react-redux";
 import { FaLinkedin } from "react-icons/fa";
-import { setCurrentUser } from "./state/user/userSlice";
+import { setChats, setCurrentUser } from "./state/user/userSlice";
 const App = () => {
   const user = useSelector((state) => state.user);
   const [socket, setSocket] = useState(null);
@@ -29,8 +29,8 @@ const App = () => {
   useEffect(() => {
     const localStorageUser = JSON.parse(localStorage.getItem("user"));
     if (socket && localStorageUser?.email) {
-      socket.on(localStorageUser.email, (email) => {
-        console.log(localStorageUser.email, email, user);
+      socket.on(localStorageUser.email, (chats) => {
+        dispatch(setChats(chats));
       });
     }
   }, [socket]);

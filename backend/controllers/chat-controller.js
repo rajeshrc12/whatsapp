@@ -26,7 +26,7 @@ const sendChats = async (req, res) => {
       const savedChat = await newChat.save();
       result = savedChat;
     }
-    io.sockets.emit(to, from);
+    io.sockets.emit(to, result.chats);
     res.status(200).json(result);
   } catch (error) {
     console.log(error);
