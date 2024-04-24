@@ -13,25 +13,29 @@ const App = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   useEffect(() => {
-    const localStorageUser = JSON.parse(localStorage.getItem("user"));
-    if (localStorageUser.email) {
-      const skt = io(import.meta.env.VITE_SERVER_URL, {
-        query: {
-          email: localStorageUser.email,
-        },
-      });
-      setSocket(skt);
-      dispatch(setCurrentUser({ ...localStorageUser, contacts: [] }));
+    if (localStorage.getItem("user")) {
+      const localStorageUser = JSON.parse(localStorage.getItem("user"));
+      if (localStorageUser.email) {
+        const skt = io(import.meta.env.VITE_SERVER_URL, {
+          query: {
+            email: localStorageUser.email,
+          },
+        });
+        setSocket(skt);
+        dispatch(setCurrentUser({ ...localStorageUser, contacts: [] }));
+      }
     } else {
       navigate("/login");
     }
   }, []);
   useEffect(() => {
-    const localStorageUser = JSON.parse(localStorage.getItem("user"));
-    if (socket && localStorageUser?.email) {
-      socket.on(localStorageUser.email, (chats) => {
-        dispatch(setChats(chats));
-      });
+    if (localStorage.getItem("user")) {
+      const localStorageUser = JSON.parse(localStorage.getItem("user"));
+      if (socket && localStorageUser?.email) {
+        socket.on(localStorageUser.email, (chats) => {
+          dispatch(setChats(chats));
+        });
+      }
     }
   }, [socket]);
   return (
