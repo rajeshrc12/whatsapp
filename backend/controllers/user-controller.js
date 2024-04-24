@@ -1,4 +1,4 @@
-const { io } = require("../socket/socket");
+const { io, getOnlineUsers } = require("../socket/socket");
 const { user: User } = require("../models/User");
 
 const addUser = async (req, res) => {
@@ -29,6 +29,18 @@ const getAllUsers = async (req, res) => {
     res.status(500).json(error);
   }
 };
+const getUser = async (req, res) => {
+  try {
+    let result = await User.findOne({ email: req.params.email });
+    const onlineUsers = getOnlineUsers();
+    if (onlineUsers.find((user) => user.email === req.params.email))
+      result = { ...result._doc, lastSeen: "online" };
+    res.status(200).json(result);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json(error);
+  }
+};
 const pingUser = (req, res) => {
   try {
     const { name, message } = req.body;
@@ -43,4 +55,5 @@ module.exports = {
   pingUser,
   addUser,
   getAllUsers,
+  getUser,
 };

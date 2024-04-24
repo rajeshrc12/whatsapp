@@ -16,10 +16,20 @@ export const addUser = async ({ email, name, profileImageUrl }) => {
 
 export const getAllUsers = async () => {
   try {
-    const response = await axios.get(`${serverUrl}/user`);
+    const response = await axios.get(`${serverUrl}/users`);
     // console.log("src/service/user/(getAllUsers)", response.data);
     return response.data;
   } catch (error) {
     console.log("error src/service/user/(getAllUsers)", error);
+  }
+};
+
+export const getUser = async ({ email }) => {
+  try {
+    const response = await axios.get(`${serverUrl}/user/${email}`);
+    // console.log("src/service/user/(getUser)", response.data);
+    return response.data;
+  } catch (error) {
+    console.log("error src/service/user/(getUser)", error);
   }
 };

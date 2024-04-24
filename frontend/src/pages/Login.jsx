@@ -5,10 +5,13 @@ import WhatsappIcon from "../icons/WhatsappIcon";
 import qr from "../images/qr.png";
 import { useNavigate } from "react-router-dom";
 import { addUser } from "../service/user";
+import { useDispatch } from "react-redux";
+import { setCurrentUser } from "../state/user/userSlice";
 const Login = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   useEffect(() => {
-    if (localStorage.getItem("email")) {
+    if (localStorage.getItem("user")) {
       navigate("/");
     }
   }, []);
@@ -35,13 +38,15 @@ const Login = () => {
           >
             <GoogleLogin
               onSuccess={(credentialResponse) => {
-                const userData = jwtDecode(credentialResponse.credential);
-                localStorage.setItem("email", userData.email);
-                addUser({
-                  email: userData.email,
-                  name: userData.name,
-                  profileImageUrl: userData.picture,
-                });
+                const result = jwtDecode(credentialResponse.credential);
+                const user = {
+                  email: result.email,
+                  name: result.name,
+                  profileImageUrl: result.picture,
+                };
+                localStorage.setItem("user", JSON.stringify(user));
+                addUser(user);
+                dispatch(setCurrentUser({ ...user, contacts: [] }));
                 navigate("/");
               }}
               onError={() => {

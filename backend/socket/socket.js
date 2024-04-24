@@ -38,9 +38,11 @@ io.on("connection", (socket) => {
   });
 });
 
+const getOnlineUsers = () => onlineUsers;
+
 module.exports = {
   app,
   io,
   server,
-  onlineUsers,
+  getOnlineUsers,
 };

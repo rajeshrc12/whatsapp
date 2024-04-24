@@ -1,9 +1,12 @@
 import React from "react";
 import EmptyProfileIcon from "../../icons/EmptyProfileIcon";
 
-const NewChatContact = ({ user }) => {
+const NewChatContact = ({ user, onClick }) => {
   return (
-    <div className="flex gap-3 items-center p-3">
+    <div
+      className="flex gap-3 items-center p-3 cursor-pointer"
+      onClick={() => onClick(user.email)}
+    >
       {user.profileImageUrl ? (
         <div className="avatar">
           <div className="w-10 rounded-full">
