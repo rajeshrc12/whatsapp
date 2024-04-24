@@ -9,21 +9,31 @@ import { FaLinkedin } from "react-icons/fa";
 import { setCurrentUser } from "./state/user/userSlice";
 const App = () => {
   const user = useSelector((state) => state.user);
+  const [socket, setSocket] = useState(null);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   useEffect(() => {
-    const user = JSON.parse(localStorage.getItem("user"));
-    if (user.email) {
+    const localStorageUser = JSON.parse(localStorage.getItem("user"));
+    if (localStorageUser.email) {
       const skt = io(import.meta.env.VITE_SERVER_URL, {
         query: {
-          email: user.email,
+          email: localStorageUser.email,
         },
       });
-      dispatch(setCurrentUser({ ...user, contacts: [] }));
+      setSocket(skt);
+      dispatch(setCurrentUser({ ...localStorageUser, contacts: [] }));
     } else {
       navigate("/login");
     }
   }, []);
+  useEffect(() => {
+    const localStorageUser = JSON.parse(localStorage.getItem("user"));
+    if (socket && localStorageUser?.email) {
+      socket.on(localStorageUser.email, (email) => {
+        console.log(localStorageUser.email, email, user);
+      });
+    }
+  }, [socket]);
   return (
     <div className="flex h-screen w-screen">
       <div className="w-[4%]">

@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { left } from "../../state/panel/panelSlice";
 import { getAllUsers, getUser } from "../../service/user";
 import { setSelectedUser } from "../../state/user/userSlice";
+import { getChats } from "../../service/chat";
 const NewChat = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
@@ -12,13 +13,18 @@ const NewChat = () => {
   const handleNewChatContact = async (email) => {
     if (user.selectedUser.email !== email) {
       const result = await getUser({ email });
+      const chats = await getChats({
+        from: user.currentUser.email,
+        to: email,
+      });
+      console.log(chats);
       dispatch(
         setSelectedUser({
           email,
           lastSeen: result.lastSeen,
           profileImageUrl: result.profileImageUrl,
           name: result.name,
-          chats: [],
+          chats,
         })
       );
     }

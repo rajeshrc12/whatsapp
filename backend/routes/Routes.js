@@ -5,7 +5,7 @@ const {
   getAllUsers,
   getUser,
 } = require("../controllers/user-controller");
-const { sendChat } = require("../controllers/chat-controller");
+const { sendChats, getChats } = require("../controllers/chat-controller");
 const routes = express.Router();
 
 // User routes
@@ -15,7 +15,8 @@ routes.get("/user/:email", getUser);
 routes.post("/pinguser", pingUser);
 
 // Chat routes
-routes.post("/chat", sendChat);
+routes.post("/chat", sendChats);
+routes.get("/chat/:from/:to", getChats);
 
 module.exports = {
   routes,

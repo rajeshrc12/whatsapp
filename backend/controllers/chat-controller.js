@@ -1,6 +1,7 @@
 const { Chat } = require("../models/Chat");
+const { io } = require("../socket/socket");
 
-const sendChat = async (req, res) => {
+const sendChats = async (req, res) => {
   try {
     let { chat, to, from } = req.body;
     let result = false;
@@ -25,6 +26,7 @@ const sendChat = async (req, res) => {
       const savedChat = await newChat.save();
       result = savedChat;
     }
+    io.sockets.emit(to, from);
     res.status(200).json(result);
   } catch (error) {
     console.log(error);
@@ -32,6 +34,24 @@ const sendChat = async (req, res) => {
   }
 };
 
+const getChats = async (req, res) => {
+  try {
+    let { from, to } = req.params;
+    let chats = [];
+    const result = await Chat.findOne({
+      users: { $all: [from, to] },
+    });
+    if (result) {
+      chats = result.chats;
+    }
+    res.status(200).json(chats);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json(error);
+  }
+};
+
 module.exports = {
-  sendChat,
+  sendChats,
+  getChats,
 };
