@@ -23,7 +23,8 @@ const Login = () => {
         <div className="h-[15%] text-white font-medium flex items-center gap-3">
           <div>
             <WhatsappIcon />
-          </div>
+          </div>ENVS
+          {import.meta.env.VITE_GOOGLE_ID}
           <div>WHATSAPP WEB</div>
         </div>
         <div className="h-[75%] bg-white shadow-2xl rounded flex justify-center items-center">
