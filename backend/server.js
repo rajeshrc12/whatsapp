@@ -25,5 +25,11 @@ if (process.env.NODE_ENV === "prod") {
 server.listen(port, () => {
   console.log(`Server listening on port ${port}`);
 });
-
+console.log(
+  "=============envs============",
+  process.env.DB_USERNAME,
+  process.env.DB_PASSWORD,
+  process.env.DB_URL,
+  process.env.DB_NAME
+);
 app.use("/", routes);
