@@ -17,6 +17,7 @@ const router = createBrowserRouter([
     element: <App />,
   },
 ]);
+console.log("envs============>", import.meta.env.VITE_GOOGLE_ID);
 ReactDOM.createRoot(document.getElementById("root")).render(
   <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_ID}>
     <Provider store={store}>
